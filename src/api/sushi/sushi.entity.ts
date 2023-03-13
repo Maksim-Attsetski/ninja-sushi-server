@@ -9,6 +9,9 @@ export class Sushi {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ required: true, unique: true })
+  article: string;
+
   @Prop()
   description: string;
 

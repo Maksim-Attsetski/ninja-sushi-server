@@ -20,6 +20,9 @@ export class Users {
 
   @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Sushi' }] })
   favorite_sushi_ids: Sushi[];
+
+  @Prop()
+  createdAt: number;
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users);
