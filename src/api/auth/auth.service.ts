@@ -23,7 +23,6 @@ export interface IAuthResponse {
   user: Users;
   tokens: ITokens;
 }
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -43,6 +42,7 @@ export class AuthService {
       email,
       name,
       password: hashPassword,
+      providers: ['pass'],
       createdAt: Date.now(),
     });
 
@@ -50,11 +50,40 @@ export class AuthService {
     return { user: createdUser, tokens };
   }
 
+  async authByGoogle(payload: string): Promise<IAuthResponse> {
+    const userData: any = this.jwtService.decode(payload);
+
+    if (!userData?.email) throw Errors.undefinedError();
+    console.log(userData);
+
+    const emailIsExist = await this.usersModel.findOne({
+      email: userData?.email,
+    });
+    let user = emailIsExist;
+
+    if (!emailIsExist) {
+      user = await this.usersModel.create({
+        email: userData?.email,
+        name: userData?.name || '',
+        avatar: userData?.picture || '',
+        providers: ['google'],
+        createdAt: Date.now(),
+      });
+    }
+
+    if (!user && !emailIsExist) return;
+
+    const tokens = await this.generateAndSaveTokens(user);
+    return { user, tokens };
+  }
+
   async login(loginDto: LoginUserDto): Promise<IAuthResponse> {
     const user = await this.usersModel.findOne({ email: loginDto.email });
 
     if (!user) throw Errors.notFound('User');
-    const isPassEqual = await compare(loginDto.password, user.password);
+    if (!user?.password) throw Errors.badRequest('Try another signup method');
+
+    const isPassEqual = await compare(loginDto.password, user?.password);
     if (!isPassEqual) throw Errors.badRequest('Password is wrong');
 
     const tokens = await this.generateAndSaveTokens(user);

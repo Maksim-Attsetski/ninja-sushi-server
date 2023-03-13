@@ -47,6 +47,15 @@ export class AuthController {
     return this.setCookies(data, res);
   }
 
+  @Post('google')
+  async authByGoogle(
+    @Body() { payload }: { payload: string },
+    @Res({ passthrough: true }) res,
+  ) {
+    const data: IAuthResponse = await this.authService.authByGoogle(payload);
+    return this.setCookies(data, res);
+  }
+
   @Get('logout')
   async logout(@Req() req, @Res({ passthrough: true }) res) {
     const { refreshToken } = req.cookies;

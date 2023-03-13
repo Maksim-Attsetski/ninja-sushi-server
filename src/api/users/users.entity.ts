@@ -9,7 +9,7 @@ export class Users {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop()
   password: string;
 
   @Prop()
@@ -17,6 +17,9 @@ export class Users {
 
   @Prop()
   phone: string;
+
+  @Prop()
+  avatar: string;
 
   @Prop({ type: { latitude: 'number', longitude: 'number' }, default: null })
   location: { latitude: number; longitude: number };
@@ -29,6 +32,9 @@ export class Users {
 
   @Prop()
   createdAt: number;
+
+  @Prop({ default: ['pass'] })
+  providers: ['pass' | 'google'];
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users);
