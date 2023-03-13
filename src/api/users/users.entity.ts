@@ -19,6 +19,9 @@ export class Users {
   phone: string;
 
   @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Sushi' }] })
+  order: Sushi[];
+
+  @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Sushi' }] })
   favorite_sushi_ids: Sushi[];
 
   @Prop()

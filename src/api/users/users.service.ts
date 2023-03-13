@@ -3,8 +3,9 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 
 import { UpdateUserDto } from './dto/update-user.dto';
+import { GetUserDto } from './dto/get-user.dto';
 import { Users, UsersDocument } from './users.entity';
-import { Errors } from 'src/utils';
+import { Errors, FindUtils, IQuery } from 'src/utils';
 
 @Injectable()
 export class UsersService {
@@ -12,8 +13,8 @@ export class UsersService {
     @InjectModel(Users.name) private userModel: Model<UsersDocument>,
   ) {}
 
-  async findAll() {
-    return await this.userModel.find();
+  async findAll(query: IQuery) {
+    return await FindUtils.getAllWithQuery(this.userModel, query, GetUserDto);
   }
 
   async findOne(id: string) {

@@ -128,7 +128,7 @@ class FindUtils {
     const curFilter = this.formatFilter(searchQuery);
 
     return curFilter.reduce((result, { key, value }) => {
-      return { ...result, [key]: { $regex: new RegExp(value, 'i') } };
+      return { ...result, [key]: { $regex: new RegExp(value, 'gim') } };
     }, {});
   }
 
