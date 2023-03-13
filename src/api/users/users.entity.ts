@@ -18,6 +18,9 @@ export class Users {
   @Prop()
   phone: string;
 
+  @Prop({ type: { latitude: 'number', longitude: 'number' }, default: null })
+  location: { latitude: number; longitude: number };
+
   @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Sushi' }] })
   order: Sushi[];
 
