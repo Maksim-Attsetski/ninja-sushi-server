@@ -17,36 +17,45 @@ export class IngredientsService {
   ) {}
 
   async create(data: CreateIngredientDto) {
-    return await MongoUtils.create(
-      this.ingredientModel,
+    return await MongoUtils.create({
+      model: this.ingredientModel,
       data,
-      data,
-      'Ingredient with this name already exist',
-    );
+      findParams: data,
+      error: 'Ingredient with this name already exist',
+    });
   }
 
   async findAll(query: IQuery) {
-    return await MongoUtils.getAll(
-      this.ingredientModel,
+    return await MongoUtils.getAll({
+      model: this.ingredientModel,
       query,
-      GetIngredientDto,
-    );
+      dto: GetIngredientDto,
+    });
   }
 
   async findOne(id: string) {
-    return await MongoUtils.get(this.ingredientModel, id, 'Ingredient');
+    return await MongoUtils.get({
+      model: this.ingredientModel,
+      id,
+      error: 'Ingredient',
+    });
   }
 
   async update(id: string, updateIngredientDto: UpdateIngredientDto) {
-    return await MongoUtils.update(
-      this.ingredientModel,
+    return await MongoUtils.update({
+      model: this.ingredientModel,
       id,
-      updateIngredientDto,
-      'Ingredient',
-    );
+      data: updateIngredientDto,
+      dto: GetIngredientDto,
+      error: 'Ingredient',
+    });
   }
 
   async remove(id: string) {
-    return await MongoUtils.delete(this.ingredientModel, id, 'Ingredient');
+    return await MongoUtils.delete({
+      model: this.ingredientModel,
+      id,
+      error: 'Ingredient',
+    });
   }
 }

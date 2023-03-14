@@ -1,6 +1,6 @@
 import { HydratedDocument, Schema as MSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Sushi } from '../sushi/sushi.entity';
+import { Product } from '../product/product.entity';
 
 export type UsersDocument = HydratedDocument<Users>;
 
@@ -24,11 +24,11 @@ export class Users {
   @Prop({ type: { latitude: 'number', longitude: 'number' }, default: null })
   location: { latitude: number; longitude: number };
 
-  @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Sushi' }] })
-  order: Sushi[];
+  @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Product' }] })
+  order: Product[];
 
-  @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Sushi' }] })
-  favorite_sushi_ids: Sushi[];
+  @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Product' }] })
+  favorite_product_ids: Product[];
 
   @Prop()
   createdAt: number;

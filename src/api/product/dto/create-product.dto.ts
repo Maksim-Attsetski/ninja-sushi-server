@@ -1,4 +1,6 @@
-export class CreateSushiDto {
+import { TProductType } from '..';
+
+export class CreateProductDto {
   name: string;
   article: string;
   description: string;
@@ -7,4 +9,5 @@ export class CreateSushiDto {
   weight: number;
   price: number;
   consist: string[];
+  type: TProductType;
 }

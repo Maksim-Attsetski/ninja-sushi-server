@@ -2,10 +2,12 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as MSchema } from 'mongoose';
 import { Ingredient } from '../ingredients/ingredient.entity';
 
-export type SushiDocument = HydratedDocument<Sushi>;
+export type ProductDocument = HydratedDocument<Product>;
+
+export type TProductType = 'sushi' | 'rolls' | 'set';
 
 @Schema()
-export class Sushi {
+export class Product {
   @Prop({ required: true })
   name: string;
 
@@ -30,8 +32,11 @@ export class Sushi {
   @Prop({ required: true })
   price: number;
 
+  @Prop({ default: 'sushi', required: true })
+  type: TProductType;
+
   @Prop()
   createdAt: number;
 }
 
-export const SushiSchema = SchemaFactory.createForClass(Sushi);
+export const ProductSchema = SchemaFactory.createForClass(Product);

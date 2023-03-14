@@ -1,37 +1,50 @@
+import { Model } from 'mongoose';
 import { Errors, FindUtils, IQuery } from '.';
 
+interface IProps {
+  model: Model<any>;
+  data?: any;
+  id?: string;
+  dto?: any;
+  error?: string;
+  query?: IQuery;
+  findParams?: any;
+}
+
 class MongoUtils {
-  async getAll(model: any, query: IQuery, dto: any) {
+  async getAll({ model, dto, query }: IProps) {
     const all = await FindUtils.getAllWithQuery(model, query, dto);
     return all;
   }
 
-  async get(model: any, id: string, notFound: string) {
+  async get({ model, id, dto, error }: IProps) {
     const item = await model.findById(id);
 
-    if (!item) throw Errors.notFound(notFound);
-    return item;
+    if (!item) throw Errors.notFound(error);
+    return dto ? await item.populate(Object.keys(new dto())) : item;
   }
 
-  async create(model: any, data: any, find: any, error: string) {
-    const item = await model.findOne(find);
+  async create({ model, findParams, data, dto, error }: IProps) {
+    const item = await model.findOne(findParams);
 
     if (item) throw Errors.badRequest(error);
-    return await model.create({ ...data, createdAt: Date.now() });
+    const newItem = await model.create({ ...data, createdAt: Date.now() });
+
+    return dto ? await newItem.populate(Object.keys(new dto())) : newItem;
   }
 
-  async update(model: any, id: string, data: any, notFound: string) {
+  async update({ model, id, data, dto, error }: IProps) {
     const item = await model.findByIdAndUpdate(id, data);
 
-    if (!item) throw Errors.notFound(notFound);
-    return item;
+    if (!item) throw Errors.notFound(error);
+    return dto ? await item.populate(Object.keys(new dto())) : item;
   }
 
-  async delete(model: any, id: string, notFound: string) {
+  async delete({ model, id, error }: IProps) {
     const item = await model.findByIdAndRemove(id);
 
-    if (!item) throw Errors.notFound(notFound);
-    return item;
+    if (!item) throw Errors.notFound(error);
+    return item._id;
   }
 }
 

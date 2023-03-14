@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import {
-  SushiModule,
+  ProductModule,
   UsersModule,
   IngredientsModule,
   AuthModule,
@@ -17,7 +17,7 @@ import Config from './config';
     }),
     MongooseModule.forRoot(process.env.DB_URL),
     UsersModule,
-    SushiModule,
+    ProductModule,
     IngredientsModule,
     AuthModule,
   ],

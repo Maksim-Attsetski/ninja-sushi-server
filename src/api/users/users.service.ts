@@ -15,18 +15,36 @@ export class UsersService {
   ) {}
 
   async findAll(query: IQuery) {
-    return await MongoUtils.getAll(this.userModel, query, GetUserDto);
+    return await MongoUtils.getAll({
+      model: this.userModel,
+      query,
+      dto: GetUserDto,
+    });
   }
 
   async findOne(id: string) {
-    return await MongoUtils.get(this.userModel, id, 'User');
+    return await MongoUtils.get({
+      model: this.userModel,
+      id,
+      error: 'User',
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    return await MongoUtils.update(this.userModel, id, updateUserDto, 'User');
+    return await MongoUtils.update({
+      model: this.userModel,
+      id,
+      data: updateUserDto,
+      dto: GetUserDto,
+      error: 'User',
+    });
   }
 
   async remove(id: string) {
-    return await MongoUtils.delete(this.userModel, id, 'User');
+    return await MongoUtils.delete({
+      model: this.userModel,
+      id,
+      error: 'User',
+    });
   }
 }

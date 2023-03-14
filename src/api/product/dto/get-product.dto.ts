@@ -1,6 +1,6 @@
-import { UpdateSushiDto } from './update-sushi.dto';
+import { UpdateProductDto } from './update-product.dto';
 
-interface ISushi {
+interface IProduct {
   name: string;
   article: string;
   description: string;
@@ -13,11 +13,11 @@ interface ISushi {
   _id: string;
 }
 
-export class GetSushiDto extends UpdateSushiDto implements ISushi {
+export class GetProductDto extends UpdateProductDto implements IProduct {
   createdAt: number;
   _id: string;
 
-  constructor(model: ISushi) {
+  constructor(model: IProduct) {
     super();
     this.name = model?.name;
     this.article = model?.article;

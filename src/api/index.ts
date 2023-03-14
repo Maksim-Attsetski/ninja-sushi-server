@@ -1,4 +1,4 @@
 export * from './ingredients';
-export * from './sushi';
+export * from './product';
 export * from './users';
 export * from './auth';
