@@ -25,7 +25,7 @@ class MongoUtils {
   }
 
   async create({ model, findParams, data, dto, error }: IProps) {
-    const item = await model.findOne(findParams);
+    const item = findParams ? await model.findOne(findParams) : null;
 
     if (item) throw Errors.badRequest(error);
     const newItem = await model.create({ ...data, createdAt: Date.now() });

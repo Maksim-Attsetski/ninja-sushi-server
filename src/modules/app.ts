@@ -7,6 +7,7 @@ import {
   UsersModule,
   IngredientsModule,
   AuthModule,
+  OrderModule,
 } from 'src/api';
 import Config from './config';
 
@@ -20,6 +21,7 @@ import Config from './config';
     ProductModule,
     IngredientsModule,
     AuthModule,
+    OrderModule,
   ],
 })
 export class AppModule {}
