@@ -31,8 +31,7 @@ export class AuthController {
 
   @Get('refresh')
   async refresh(@Req() req, @Res({ passthrough: true }) res) {
-    const { refreshToken } = req.cookies;
-    console.log(req.cookies);
+    const refreshToken = req.cookies?.refreshToken;
 
     const data: IAuthResponse = await this.authService.refresh(refreshToken);
     return this.setCookies(data, res);
