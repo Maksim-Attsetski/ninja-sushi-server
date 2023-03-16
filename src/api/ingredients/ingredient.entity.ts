@@ -7,6 +7,12 @@ export type IngredientDocument = HydratedDocument<Ingredient>;
 export class Ingredient {
   @Prop({ required: true })
   name: string;
+
+  @Prop({ default: '' })
+  image: string;
+
+  @Prop()
+  createdAt: number;
 }
 
 export const IngredientSchema = SchemaFactory.createForClass(Ingredient);

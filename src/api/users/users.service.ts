@@ -2,11 +2,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 
-import { MongoUtils, IQuery } from 'src/utils';
+import { MongoUtils, IQuery, Errors } from 'src/utils';
 
 import { UpdateUserDto } from './dto/update-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
 import { Users, UsersDocument } from './users.entity';
+import { compare, hash } from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -38,6 +39,24 @@ export class UsersService {
       dto: GetUserDto,
       error: 'User',
     });
+  }
+
+  async updatePassword(
+    id: string,
+    updateUserDto: { last: string; new: string },
+  ) {
+    const user = await this.userModel.findById(id);
+
+    if (!user) throw Errors.notFound('user');
+
+    const isPassEqual = await compare(updateUserDto.last, user?.password);
+    if (!isPassEqual) throw Errors.badRequest('Old password is wrong');
+
+    const hashPassword = await hash(updateUserDto.new, 7);
+    user.password = hashPassword;
+    await user.save();
+
+    return true;
   }
 
   async remove(id: string) {

@@ -25,9 +25,6 @@ export class Users {
   location: { latitude: number; longitude: number };
 
   @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Product' }] })
-  order: Product[];
-
-  @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Product' }] })
   favorite_product_ids: Product[];
 
   @Prop()
