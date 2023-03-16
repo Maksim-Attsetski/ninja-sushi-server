@@ -62,5 +62,6 @@ export class AuthController {
     res.clearCookie('refreshToken');
 
     await this.authService.deleteToken({ refreshToken });
+    return true;
   }
 }
