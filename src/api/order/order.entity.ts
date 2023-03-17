@@ -9,7 +9,7 @@ export type TOrderDocument = HydratedDocument<Order>;
 
 @Schema()
 export class Order {
-  @Prop({ required: true })
+  @Prop()
   price: number;
 
   @Prop({ default: 0 })
@@ -18,10 +18,10 @@ export class Order {
   @Prop({ default: 0 })
   tips: number; // чаевые
 
-  @Prop({ required: true })
+  @Prop({ default: false })
   delivery: boolean;
 
-  @Prop({ required: true })
+  @Prop()
   deliveryTime: number;
 
   @Prop({ default: 'cash' })
@@ -34,16 +34,16 @@ export class Order {
   status: 'not paid' | 'paid';
 
   @Prop({
-    required: true,
-    type: [{ type: MSchema.Types.ObjectId, ref: 'Product' }],
+    type: [
+      {
+        product: { type: MSchema.Types.ObjectId, ref: 'Product' },
+        count: { type: 'number', default: 0 },
+      },
+    ],
   })
-  products: Product[];
+  products: [{ product: Product; count: number }];
 
-  @Prop({
-    required: true,
-    type: MSchema.Types.ObjectId,
-    ref: 'Users',
-  })
+  @Prop({ type: MSchema.Types.ObjectId, ref: 'Users' })
   authorId: Users;
 
   @Prop()

@@ -1,3 +1,4 @@
+import { PopulateOptions } from 'mongoose';
 import { Errors } from '.';
 
 export interface IQuery {
@@ -148,7 +149,7 @@ class FindUtils {
     model: any,
     query: IQuery,
     dto: any = {},
-    populate?: string[],
+    options?: string | PopulateOptions | PopulateOptions[],
   ) {
     const { limit, page, dependencies } = this.getPagination(query);
     const search = this.getSearch(query?.search);
@@ -157,12 +158,14 @@ class FindUtils {
     const dependenciesIsObj =
       typeof dependencies === 'object' ? dependencies : Object.keys(new dto());
 
+    const populateDocs = dependencies ? dependenciesIsObj : [];
+
     return await model
       .find({ ...search, ...filter })
       .limit(limit)
       .skip(page)
-      .populate(dependencies ? dependenciesIsObj : [])
-      .populate(populate || []);
+      .populate(populateDocs)
+      .populate(dependencies ? options : []);
   }
 }
 

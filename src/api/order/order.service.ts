@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 
 import { IQuery, MongoUtils } from 'src/utils';
 
+import { Product, ProductDocument } from '../product';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { GetOrderDto } from './dto/get-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -27,11 +28,12 @@ export class OrderService {
       model: this.orderModel,
       query,
       dto: GetOrderDto,
+      populate: [{ path: 'products', populate: 'product' }],
     });
   }
 
   async findOne(id: string) {
-    return await MongoUtils.create({
+    return await MongoUtils.get({
       model: this.orderModel,
       id,
       error: 'Order',
@@ -40,7 +42,7 @@ export class OrderService {
   }
 
   async update(id: string, updateOrderDto: UpdateOrderDto) {
-    return await MongoUtils.create({
+    return await MongoUtils.update({
       model: this.orderModel,
       data: updateOrderDto,
       id,
@@ -49,7 +51,7 @@ export class OrderService {
   }
 
   async remove(id: string) {
-    return await MongoUtils.create({
+    return await MongoUtils.delete({
       model: this.orderModel,
       id,
       error: 'Order',

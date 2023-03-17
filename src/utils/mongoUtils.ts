@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, PopulateOptions } from 'mongoose';
 import { Errors, FindUtils, IQuery } from '.';
 
 interface IProps {
@@ -9,11 +9,12 @@ interface IProps {
   error?: string;
   query?: IQuery;
   findParams?: any;
+  populate?: string | PopulateOptions | PopulateOptions[];
 }
 
 class MongoUtils {
-  async getAll({ model, dto, query }: IProps) {
-    const all = await FindUtils.getAllWithQuery(model, query, dto);
+  async getAll({ model, dto, query, populate }: IProps) {
+    const all = await FindUtils.getAllWithQuery(model, query, dto, populate);
     return all;
   }
 
