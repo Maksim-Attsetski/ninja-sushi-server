@@ -23,11 +23,12 @@ export class UsersService {
     });
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, isFull?: boolean) {
     return await MongoUtils.get({
       model: this.userModel,
       id,
       error: 'User',
+      dto: isFull ? GetUserDto : false,
     });
   }
 

@@ -7,6 +7,7 @@ export interface IQuery {
   dependencies?: boolean | string[];
   search?: string;
   filter?: string;
+  sort?: string;
 }
 
 class FindUtils {
@@ -145,6 +146,18 @@ class FindUtils {
     return currentQuery;
   }
 
+  getSorting(value: string) {
+    if (!value) return {};
+    const sort = this.formatFilter(value);
+
+    return sort.reduce((acc: any, { key, value }) => {
+      return {
+        ...acc,
+        [key]: { asc: 1, desc: -1 }[value],
+      };
+    }, {});
+  }
+
   async getAllWithQuery(
     model: any,
     query: IQuery,
@@ -154,6 +167,7 @@ class FindUtils {
     const { limit, page, dependencies } = this.getPagination(query);
     const search = this.getSearch(query?.search);
     const filter = this.getFilter(query?.filter);
+    const sorting = this.getSorting(query?.sort);
 
     const dependenciesIsObj =
       typeof dependencies === 'object' ? dependencies : Object.keys(new dto());
@@ -165,7 +179,8 @@ class FindUtils {
       .limit(limit)
       .skip(page)
       .populate(populateDocs)
-      .populate(dependencies ? options : []);
+      .populate(dependencies ? options : [])
+      .sort(sorting);
   }
 }
 

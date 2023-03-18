@@ -4,4 +4,18 @@ export class GetUserDto extends UpdateUserDto {
   _id: string;
   createdAt: number;
   location: { latitude: number; longitude: number };
+
+  constructor(model: GetUserDto) {
+    super();
+
+    this._id = model?._id;
+    this.avatar = model?.avatar;
+    this.createdAt = model?.createdAt;
+    this.email = model?.email;
+    this.favorite_products_ids = model?.favorite_products_ids;
+    this.location = model?.location;
+    this.name = model?.name;
+    this.password = model?.password;
+    this.phone = model?.phone;
+  }
 }
