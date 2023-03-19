@@ -8,7 +8,10 @@ class Config {
 
   constructor() {
     this.isDev = !node_env || node_env === 'development';
-    this.corsOptions = { credentials: true, origin: ['http://localhost:3000'] };
+    this.corsOptions = {
+      credentials: true,
+      origin: ['http://localhost:3000', 'https://sushi-380521.web.app'],
+    };
     this.accessSecret = 'accessSecret';
     this.refreshSecret = 'refreshSecret';
   }
