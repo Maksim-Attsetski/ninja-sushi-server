@@ -7,19 +7,28 @@ import {
   Param,
   Delete,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { IQuery } from 'src/utils';
+
+import { IFile } from 'src/modules/files';
 
 @Controller('news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
 
   @Post()
-  create(@Body() createNewsDto: CreateNewsDto) {
-    return this.newsService.create(createNewsDto);
+  @UseInterceptors(FileInterceptor('preview'))
+  async create(
+    @Body() createNewsDto: CreateNewsDto,
+    @UploadedFile() preview: IFile,
+  ) {
+    return this.newsService.create(createNewsDto, preview);
   }
 
   @Get()

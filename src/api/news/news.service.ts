@@ -1,20 +1,23 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
-import { IQuery, MongoUtils } from 'src/utils';
+import { Errors, IQuery, MongoUtils } from 'src/utils';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { Model } from 'mongoose';
 import { News, newsDocument } from './news.entity';
 import { GetNewsDto } from './dto/get-news.dto';
+import { fileModule, IFile } from 'src/modules';
 
 @Injectable()
 export class NewsService {
   constructor(@InjectModel(News.name) private newsModel: Model<newsDocument>) {}
 
-  async create(createNewsDto: CreateNewsDto) {
+  async create(createNewsDto: CreateNewsDto, preview: IFile) {
+    const name = await fileModule.createFile(preview);
+
     return await MongoUtils.create({
       model: this.newsModel,
-      data: createNewsDto,
+      data: { ...createNewsDto, preview: name },
     });
   }
 
@@ -45,10 +48,13 @@ export class NewsService {
   }
 
   async remove(id: string) {
-    return await MongoUtils.delete({
-      model: this.newsModel,
-      error: 'News',
-      id,
-    });
+    const item = await this.newsModel.findByIdAndRemove(id);
+
+    if (!item) throw Errors.notFound('News');
+    if (item?.preview) {
+      await fileModule.deleteFile(item.preview);
+    }
+
+    return item._id;
   }
 }

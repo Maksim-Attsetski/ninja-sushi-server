@@ -27,6 +27,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/serve-static": "^3.0.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.3",
     "bcryptjs": "^2.4.3",
@@ -34,7 +35,8 @@
     "cookie-parser": "^1.4.6",
     "mongoose": "^7.0.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -44,6 +46,7 @@
     "@types/jest": "29.2.4",
     "@types/node": "18.11.18",
     "@types/supertest": "^2.0.11",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "cross-env": "^7.0.3",
