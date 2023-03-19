@@ -1,5 +1,7 @@
 FROM node
 
+WORKDIR /
+
 COPY package.json ./
 COPY yarn.lock ./
 
