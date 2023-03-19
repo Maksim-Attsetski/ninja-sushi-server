@@ -1,4 +1,4 @@
-import { NewsService } from './News.service';
+import { NewsService } from './news.service';
 import { NewsController } from './news.controller';
 import { NewsModule } from './news.module';
 import { CreateNewsDto } from './dto/create-news.dto';
