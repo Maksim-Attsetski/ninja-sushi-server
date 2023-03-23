@@ -31,7 +31,7 @@ export class Order {
   comment: string;
 
   @Prop()
-  status: 'not paid' | 'paid';
+  status: 'not_paid' | 'paid';
 
   @Prop({
     type: [

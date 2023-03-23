@@ -12,10 +12,23 @@ interface IProps {
   populate?: string | PopulateOptions | PopulateOptions[];
 }
 
+export interface IArrayRes {
+  data: any[];
+  count: number;
+  last: boolean;
+}
+
 class MongoUtils {
-  async getAll({ model, dto, query, populate }: IProps) {
+  async getAll({ model, dto, query, populate }: IProps): Promise<IArrayRes> {
     const all = await FindUtils.getAllWithQuery(model, query, dto, populate);
-    return all;
+    const count = await model.count();
+    let last = false;
+
+    if (query?.page && query?.limit) {
+      last = count / query?.limit <= query?.page;
+    }
+
+    return { data: all, count, last };
   }
 
   async get({ model, id, dto, error }: IProps) {

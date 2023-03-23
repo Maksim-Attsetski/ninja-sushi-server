@@ -1,12 +1,14 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
+
 import { Errors, IQuery, MongoUtils } from 'src/utils';
+import { fileModule, IFile } from 'src/modules';
+
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
-import { Model } from 'mongoose';
 import { News, newsDocument } from './news.entity';
 import { GetNewsDto } from './dto/get-news.dto';
-import { fileModule, IFile } from 'src/modules';
 
 @Injectable()
 export class NewsService {
