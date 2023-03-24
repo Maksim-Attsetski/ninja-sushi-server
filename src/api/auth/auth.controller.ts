@@ -48,10 +48,10 @@ export class AuthController {
 
   @Post('google')
   async authByGoogle(
-    @Body() { payload }: { payload: string },
+    @Body() body: { credential: string; location: any },
     @Res({ passthrough: true }) res,
   ) {
-    const data: IAuthResponse = await this.authService.authByGoogle(payload);
+    const data: IAuthResponse = await this.authService.authByGoogle(body);
     return this.setCookies(data, res);
   }
 
