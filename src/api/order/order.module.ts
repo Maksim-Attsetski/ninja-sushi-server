@@ -1,11 +1,12 @@
 import { MongooseModule } from '@nestjs/mongoose';
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 
 import { Order, OrderSchema } from './order.entity';
 import { OrderService } from './order.service';
 import { OrderController } from './order.controller';
+import { UsersModule } from '../users';
 
-const orderModel = MongooseModule.forFeature([
+export const orderModel = MongooseModule.forFeature([
   { name: Order.name, schema: OrderSchema },
 ]);
 
@@ -13,5 +14,6 @@ const orderModel = MongooseModule.forFeature([
   imports: [orderModel],
   controllers: [OrderController],
   providers: [OrderService],
+  exports: [orderModel],
 })
 export class OrderModule {}

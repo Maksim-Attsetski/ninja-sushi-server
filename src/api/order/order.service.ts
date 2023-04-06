@@ -57,4 +57,8 @@ export class OrderService {
       error: 'Order',
     });
   }
+  async removeMany(filter: any): Promise<number> {
+    const res = await this.orderModel.deleteMany(filter);
+    return res.deletedCount;
+  }
 }

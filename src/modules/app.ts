@@ -25,11 +25,11 @@ import Config from './config';
       envFilePath: Config.isDev ? '.env.dev' : `.env.prod`,
     }),
     MongooseModule.forRoot(process.env.DB_URL),
+    OrderModule,
     UsersModule,
     ProductModule,
     IngredientsModule,
     AuthModule,
-    OrderModule,
     NewsModule,
   ],
 })

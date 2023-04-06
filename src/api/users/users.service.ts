@@ -8,11 +8,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
 import { Users, UsersDocument } from './users.entity';
 import { compare, hash } from 'bcryptjs';
+import { OrderService } from '../order';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(Users.name) private userModel: Model<UsersDocument>,
+    private orderService: OrderService,
   ) {}
 
   async findAll(query: IQuery) {
@@ -61,6 +63,8 @@ export class UsersService {
   }
 
   async remove(id: string) {
+    await this.orderService.removeMany({ authorId: id });
+
     return await MongoUtils.delete({
       model: this.userModel,
       id,
