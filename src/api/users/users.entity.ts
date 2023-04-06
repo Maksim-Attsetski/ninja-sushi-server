@@ -4,6 +4,16 @@ import { Product } from '../product/product.entity';
 
 export type UsersDocument = HydratedDocument<Users>;
 
+export interface ILocation {
+  city: string;
+  country: string;
+  street: string;
+  home: string;
+  entrance: number; // подъезд
+  floor: number; // этаж
+  flat: number; // кв
+}
+
 @Schema()
 export class Users {
   @Prop({ required: true })
@@ -21,8 +31,8 @@ export class Users {
   @Prop()
   avatar: string;
 
-  @Prop({ type: { latitude: 'number', longitude: 'number' }, default: null })
-  location: { latitude: number; longitude: number };
+  @Prop({ type: [{ type: {} as ILocation }] })
+  location: ILocation;
 
   @Prop({ type: [{ type: MSchema.Types.ObjectId, ref: 'Product' }] })
   favorite_products_ids: Product[];

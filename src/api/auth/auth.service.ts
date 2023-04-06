@@ -63,11 +63,8 @@ export class AuthService {
     return { user: createdUser, tokens };
   }
 
-  async authByGoogle(body: {
-    credential: string;
-    location: any;
-  }): Promise<IAuthResponse> {
-    const userData: any = this.jwtService.decode(body.credential);
+  async authByGoogle(credential: string): Promise<IAuthResponse> {
+    const userData: any = this.jwtService.decode(credential);
 
     if (!userData?.email) throw Errors.undefinedError();
     const emailIsExist = await this.usersModel.findOne({
@@ -81,7 +78,6 @@ export class AuthService {
         email: userData?.email,
         name: userData?.name || '',
         avatar: userData?.picture || '',
-        location: body?.location,
         providers: ['google'],
         createdAt: Date.now(),
       });
