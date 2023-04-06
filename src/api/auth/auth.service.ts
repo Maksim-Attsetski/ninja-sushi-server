@@ -65,6 +65,7 @@ export class AuthService {
 
   async authByGoogle(credential: string): Promise<IAuthResponse> {
     const userData: any = this.jwtService.decode(credential);
+    console.log(userData, credential);
 
     if (!userData?.email) throw Errors.undefinedError();
     const emailIsExist = await this.usersModel.findOne({

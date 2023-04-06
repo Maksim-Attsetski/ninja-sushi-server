@@ -48,7 +48,7 @@ export class AuthController {
 
   @Post('google')
   async authByGoogle(
-    @Body() credential: string,
+    @Body() { credential }: { credential: string },
     @Res({ passthrough: true }) res,
   ) {
     const data: IAuthResponse = await this.authService.authByGoogle(credential);
