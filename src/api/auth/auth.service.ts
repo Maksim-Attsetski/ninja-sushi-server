@@ -1,19 +1,20 @@
 import { hash, compare } from 'bcryptjs';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Errors } from 'src/utils';
 import { JwtService } from '@nestjs/jwt/dist';
 
-// import { Token, TokenDocument } from './token.schema';
+import { Errors } from 'src/utils';
 import { Config } from 'src/modules';
 import {
   CreateUserDto as SignupDto,
   LoginUserDto,
   Users,
   UsersDocument,
+  OrderService,
 } from 'src/api';
 import { Token, TokenDocument } from './auth.entity';
+
 interface ITokens {
   accessToken: string;
   refreshToken: string;
@@ -26,10 +27,20 @@ export interface IAuthResponse {
 @Injectable()
 export class AuthService {
   constructor(
-    private jwtService: JwtService,
     @InjectModel(Token.name) private readonly tokenModel: Model<TokenDocument>,
     @InjectModel(Users.name) private readonly usersModel: Model<UsersDocument>,
+    @Inject(forwardRef(() => JwtService)) private jwtService: JwtService,
+    @Inject(forwardRef(() => OrderService)) private orderService: OrderService,
   ) {}
+
+  async onCreateOrder(user: any): Promise<void> {
+    await this.orderService.create({
+      delivery: true,
+      paymentsType: 'cash',
+      status: 'not_paid',
+      authorId: user._id,
+    });
+  }
 
   async signup({ email, name, password }: SignupDto): Promise<IAuthResponse> {
     const emailIsExist = await this.usersModel.findOne({ email });
@@ -47,6 +58,8 @@ export class AuthService {
     });
 
     const tokens = await this.generateAndSaveTokens(createdUser);
+    await this.onCreateOrder(createdUser);
+
     return { user: createdUser, tokens };
   }
 
@@ -72,6 +85,7 @@ export class AuthService {
         providers: ['google'],
         createdAt: Date.now(),
       });
+      await this.onCreateOrder(user);
     }
 
     if (!user && !emailIsExist) return;
@@ -84,7 +98,7 @@ export class AuthService {
     const user = await this.usersModel.findOne({ email: loginDto.email });
 
     if (!user) throw Errors.notFound('User');
-    if (!user?.password) throw Errors.badRequest('Try another signup method');
+    if (!user?.password) throw Errors.badRequest('Try another sign in method');
 
     const isPassEqual = await compare(loginDto.password, user?.password);
     if (!isPassEqual) throw Errors.badRequest('Password is wrong');

@@ -4,7 +4,6 @@ import { Model } from 'mongoose';
 
 import { IQuery, MongoUtils } from 'src/utils';
 
-import { Product, ProductDocument } from '../product';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { GetOrderDto } from './dto/get-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';

@@ -1,12 +1,12 @@
 export class CreateOrderDto {
-  price: number;
+  price?: number;
   discount?: number;
   tips?: number;
   delivery: boolean;
-  deliveryTime: number;
-  paymentsType: string;
+  deliveryTime?: number;
+  paymentsType?: string;
   status: string;
-  comment: string;
-  products: string[];
-  authorId: string;
+  comment?: string;
+  products?: string[];
+  authorId: any;
 }

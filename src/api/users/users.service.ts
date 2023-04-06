@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { Model } from 'mongoose';
 
 import { MongoUtils, IQuery, Errors } from 'src/utils';
@@ -14,7 +14,7 @@ import { OrderService } from '../order';
 export class UsersService {
   constructor(
     @InjectModel(Users.name) private userModel: Model<UsersDocument>,
-    private orderService: OrderService,
+    @Inject(forwardRef(() => OrderService)) private orderService: OrderService,
   ) {}
 
   async findAll(query: IQuery) {

@@ -10,7 +10,6 @@ import {
   UsersModule,
   IngredientsModule,
   AuthModule,
-  OrderModule,
   NewsModule,
 } from 'src/api';
 import Config from './config';
@@ -25,7 +24,6 @@ import Config from './config';
       envFilePath: Config.isDev ? '.env.dev' : `.env.prod`,
     }),
     MongooseModule.forRoot(process.env.DB_URL),
-    OrderModule,
     UsersModule,
     ProductModule,
     IngredientsModule,

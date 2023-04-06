@@ -1,5 +1,5 @@
 import { MongooseModule } from '@nestjs/mongoose';
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
@@ -11,7 +11,7 @@ const UserModel = MongooseModule.forFeature([
 ]);
 
 @Module({
-  imports: [UserModel, orderModel],
+  imports: [UserModel, forwardRef(() => orderModel)],
   controllers: [UsersController],
   providers: [UsersService, OrderService],
   exports: [UserModel],
