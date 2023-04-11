@@ -4,3 +4,4 @@ export * from './users';
 export * from './auth';
 export * from './order';
 export * from './news';
+export * from './restaurants';
