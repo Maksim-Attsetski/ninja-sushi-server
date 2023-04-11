@@ -1,13 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { ILocation } from '../users';
 
 export type restaurantsDocument = HydratedDocument<Restaurants>;
-
-export interface IWorkTime {
-  from: string;
-  to: string;
-  breaks: [{ from: string; to: string }];
-}
 
 export interface IContact {
   phone?: string[];
@@ -17,20 +12,17 @@ export interface IContact {
 
 @Schema()
 export class Restaurants {
-  @Prop()
-  city: string;
+  @Prop({ type: {} as ILocation })
+  location: ILocation;
 
   @Prop()
-  country: string;
+  open_in: number;
 
   @Prop()
-  street: string;
+  close_in: number;
 
   @Prop()
-  home: string;
-
-  @Prop({ type: {} as IWorkTime })
-  workTime: IWorkTime;
+  breaks: [{ from: string; to: string }];
 
   @Prop({ type: {} as IContact })
   contacts: IContact;
