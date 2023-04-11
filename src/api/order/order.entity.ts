@@ -7,6 +7,12 @@ import { Users } from '../users';
 
 export type TOrderDocument = HydratedDocument<Order>;
 
+export interface IDelivery {
+  delivery: boolean;
+  time: number;
+  address: string;
+}
+
 @Schema()
 export class Order {
   @Prop()
@@ -18,8 +24,8 @@ export class Order {
   @Prop({ default: 0 })
   tips: number; // чаевые
 
-  @Prop({ default: false })
-  delivery: boolean;
+  @Prop({ type: {} as IDelivery, default: null })
+  delivery: IDelivery;
 
   @Prop()
   deliveryTime: number;

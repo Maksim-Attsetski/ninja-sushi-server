@@ -2,9 +2,12 @@
   "name": "ninja-product-server",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Maksim-Attsetski",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -62,6 +65,7 @@
     "ts-jest": "29.0.3",
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
+    "node": "^18.13.0",
     "tsconfig-paths": "4.1.1",
     "typescript": "^4.7.4"
   },
