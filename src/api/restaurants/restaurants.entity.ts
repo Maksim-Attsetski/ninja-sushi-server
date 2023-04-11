@@ -16,10 +16,10 @@ export class Restaurants {
   location: ILocation;
 
   @Prop()
-  open_in: number;
+  open_at: number;
 
   @Prop()
-  close_in: number;
+  close_at: number;
 
   @Prop()
   breaks: [{ from: string; to: string }];
